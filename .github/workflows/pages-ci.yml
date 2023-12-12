@@ -48,8 +48,21 @@ jobs:
       - name: 📄 Setup Pages index.html
         run: |
           mkdir -p _site
-          echo '<html><head><meta http-equiv="Refresh" content="3; url=/typst-improv-tables-planning/main.pdf" /></head><body><a href="/typst-improv-tables-planning/main.pdf"><h2>Click me if you were not redirected</h2></a></body></html>' >> _site/index.html
+          cat <<HERE_DOC >> _site/index.html
+            <html>
+              <head>
+                <meta http-equiv="Refresh" content="0;url=/typst-improv-tables-planning/main.pdf" />
+              </head>
+              <body>
+                <a href="/typst-improv-tables-planning/main.pdf"><h2>Click me if you were not redirected</h2></a>
+                <script type="text/javascript">
+                    window.location.href = "/typst-improv-tables-planning/main.pdf";
+                </script>
+              </body>
+            </html>
+          HERE_DOC
           ls -ltah _site
+          cat _site/index.html
 
       - name: 🛠️ Compile document
         run: typst compile main.typ _site/main.pdf
