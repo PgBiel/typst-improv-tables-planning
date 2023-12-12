@@ -134,6 +134,18 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
 
 *TBD*
 
+== Table direction and orientation
+
+1. *Under discussion:* There could be a way to change the orientation of a table, such that it *expands to the right* instead of to the bottom. This means that *the rows will be fixed,* while *the amount of columns can expand* indefinitely. Basically, switches the roles of columns and rows.
+  - For instance, you could specify `rows: (auto, 2pt)` to have two rows with those sizes, and `columns: (1em, auto)` to have one `1em` column and unlimited `auto` columns afterwards.
+  - The cells are specified in *column-major order* - that is, the first cell specified to `table` will be in the first row of the first column; the second cell, in the second row of the first column; and so on, until the first column is fully filled.
+    - Currently, all tables are in *row-major order* - cells fill rows instead of columns.
+  - *Proposal 1:* Use a `transpose: true` argument to enable this behavior. Not only would this have cells end up being specified in column-major order (as this would swap rows and columns), but this would also swap (due to semantics of matrix transpose) the `rows` and `columns` parameters, such that the sizes of rows would correspond to the sizes of columns and vice-versa.
+    - Can be confusing.
+  - *Proposal 2:* Use a `major: "row" / "column"` argument (or `column-major: true` or similar) to specify if the table is row-major (default) or column-major. Enabling column-major order *does not swap the `rows` and `columns` parameters* (due to different semantics from the previous proposal), but it does affect the order in which cells are specified (increasing the `y` coordinate).
+
+2. *To be discussed:* If the table is changed to be column-major (through either of the proposals above), then when the table grows to the right and reaches the page width, *the table wraps* - not necessarily into a new page, but into a new "subtable" below it with the same rows, but with the post-wrap columns. // (TODO: Attach diagram.)
+
 == Misc
 
 1. Perhaps it should be possible to specify any kind of input as table cells. E.g., it could be possible to write
@@ -142,6 +154,20 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
     ```
     - Currently, the above errors as `int` and `float` aren't `content`. Ideally, we'd just convert them to content automatically with `repr` or similar.
     - *Investigation needed:* should we implement the above by ourselves by taking arbitrary `Value`s and displaying them if they're `Content`, using `Repr` otherwise? Or should we postpone this to the Type Rework, with which Content will be reworked (and thus, in theory, all types could become "showable")?
+
+2. It could be interesting to be able to specify a fixed number of rows (by specifying only the `rows` parameter, but not `columns`) and have the amount of columns auto-adjust. *You'd still specify cells in the natural ("row-major") order.*
+  - Consider the example below:
+    ```typ
+    #table(
+      rows: 3,
+      [a], [b], [c]
+      [c], [d], [e]
+      [e], [f]
+    )
+    ```
+    - With that setup, there would be exactly three rows, and the amount of columns would be calculated with `ceil(num cells / rows)`; in this case, there are 8 cells, so $ceil(8 \/ 3)$ would result in 3 columns.
+    - Otherwise, the table would *behave exactly as if given `columns: 3`*.
+    - This is particularly simple to implement.
 
 = Requirements
 
