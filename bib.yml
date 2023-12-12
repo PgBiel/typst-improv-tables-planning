@@ -1,0 +1,6 @@
+tablex:
+    type: Repository
+    title: Tablex
+    author: PgBiel
+    archive: GitHub
+    url: https://github.com/PgBiel/typst-tablex
