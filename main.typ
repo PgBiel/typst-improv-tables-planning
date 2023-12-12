@@ -72,6 +72,14 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
     - *Proposal 2 (Tablex's approach):* The missing coordinate should be determined without change from the `table.cell(x: auto, y: auto)` case. That is, if the cell `table.cell(y: 3)` is specified right after `table.cell(x: 1, y: 1)`, then the former cell's missing `x` coordinate will be calculated to be `x: 2` (the previous plus one). With a missing `y` coordinate, the cell would stay in the same row as the previous cell unless the row is entirely filled, in which case the cell would go to the next row.
       - It works, but might be a bit surprising. Would be nice to have more opinions here.
 
+5. *To be discussed:* There should be a built-in method to create a `diagbox`-style cell, with a divider across its diagonal separating two bits of text / content.
+  - While this can be done with a third-party package such as diagbox @diagbox, it requires manual adjustment to ensure the diagbox fits the entire cell, as tables have an `inset` parameter (which defaults to `5pt` on all sides, and can even change for each different side), and knowing and specifying the table inset is required to have the diagbox expand enough to "bypass" inset.
+    - This can only be done transparently when the table itself renders the diagbox, as it then provides the correct `inset` parameter.
+    - The solution is to have a built-in diagbox element or similar.
+  - *Proposal 1:* Have a separate diagbox element, e.g. `table.diagbox(flipped: true)[a][b]`.
+    - This could translate to internal cell properties, or even just be wrapped as the body of a `table.cell`.
+  - *Proposal 2:* Use properties on `table.cell`, e.g. `table.cell(diagbox: (left: [a], right: [b], flipped: true))`.
+
 == Merging cells
 
 *TBD*
@@ -93,6 +101,10 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
 4. *Under discussion:* When a cell spans a pagebreak, which lines should appear right before the pagebreak, and which lines should appear right after?
   - Currently, all lines are identical, so this doesn't matter.
   - *Proposal 1 (Pg):* Lines right before the pagebreak (in the current page) should be copies of the lines which come right under the cell. Lines right after the pagebreak (in the new page) should be copies of the lines which come right above the cell.
+
+5. *To be discussed:* Should it be possible to specify not only vertical and horizontal, but also diagonal lines?
+  - At the moment, this sounds very far-fetched, especially since handling diagonal lines going through pagebreaks would be a bit hairy, and require some math.
+  - The idea can be kept here for the future though. For the moment, we should focus on horizontal and vertical lines.
 
 == Grid and table unification
 
@@ -121,6 +133,15 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
 == Repeatable footers
 
 *TBD*
+
+== Misc
+
+1. Perhaps it should be possible to specify any kind of input as table cells. E.g., it could be possible to write
+    ```typ
+    #table([a], 2, 3, -1.5, table.cell(...), $ 5 + x $)
+    ```
+    - Currently, the above errors as `int` and `float` aren't `content`. Ideally, we'd just convert them to content automatically with `repr` or similar.
+    - *Investigation needed:* should we implement the above by ourselves by taking arbitrary `Value`s and displaying them if they're `Content`, using `Repr` otherwise? Or should we postpone this to the Type Rework, with which Content will be reworked (and thus, in theory, all types could become "showable")?
 
 = Requirements
 

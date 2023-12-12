@@ -4,3 +4,10 @@ tablex:
     author: PgBiel
     archive: GitHub
     url: https://github.com/PgBiel/typst-tablex
+diagbox:
+    type: Repository
+    title: typst-diagbox
+    author: PgBiel
+    archive: GitHub
+    url: https://github.com/PgBiel/typst-diagbox
+
