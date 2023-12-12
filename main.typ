@@ -4,7 +4,7 @@
   title: "Typst Improved Tables - Planning",
   doc-authors: ("PgBiel"),
   authors: ([PgBiel \<https://github.com/PgBiel\>],),
-  date: "2023-12-10",
+  date: [2023-12-10 (Last update: #datetime.today().display("[year]-[month]-[day]"))],
   font: "Fira Sans",
   raw-font: "Fira Mono",
 )
