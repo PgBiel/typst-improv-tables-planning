@@ -178,7 +178,7 @@
     #date
   ]
 
-  set list(marker: (sym.circle.filled.tiny, $circle.small$, sym.square.filled, sym.circle.filled.tiny))
+  set list(marker: ($circle.filled.small$, $circle.small$, $square.filled.small$, $circle.filled.small$))
 
   // Main body.
   set par(justify: true)
@@ -197,4 +197,3 @@
 
   body
 }
-
