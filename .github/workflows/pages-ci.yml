@@ -48,7 +48,7 @@ jobs:
       - name: 📄 Setup Pages index.html
         run: |
           mkdir -p _site
-          echo '<html><head><meta http-equiv="Refresh" content="3; url=/typst-improv-tables-planning/main.pdf" /></head><body><a href="/typst-improv-tables-planning/main.pdf"><h2>Click me if you weren't redirected</h2></a></body></html>' >> _site/index.html
+          echo '<html><head><meta http-equiv="Refresh" content="3; url=/typst-improv-tables-planning/main.pdf" /></head><body><a href="/typst-improv-tables-planning/main.pdf"><h2>Click me if you were not redirected</h2></a></body></html>' >> _site/index.html
           ls -ltah _site
 
       - name: 🛠️ Compile document
