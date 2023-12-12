@@ -33,17 +33,27 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: 📄 Setup Pages
         id: pages
         uses: actions/configure-pages@v3
 
+      - name: 📂 Create fonts directory
+        run: "mkdir -p fonts/Fira"
+
+      - name: 📥 Setup Fonts
+        id: setup-fonts
+        uses: actions/checkout@v4
+        with:
+          repository: "mozilla/Fira"
+          path: "fonts/Fira"
+
       - name: 📥 Setup Typst
         uses: yusancky/setup-typst@v2
         id: setup-typst
         with:
-          version: 'v0.10.0'
+          version: "v0.10.0"
 
       - name: 📄 Setup Pages index.html
         run: |
@@ -65,7 +75,7 @@ jobs:
           cat _site/index.html
 
       - name: 🛠️ Compile document
-        run: typst compile main.typ _site/main.pdf
+        run: "typst compile --font-path fonts/Fira/ttf main.typ _site/main.pdf"
 
       - name: 📤 Upload artifact
         # Automatically uploads an artifact from the './_site' directory by default
