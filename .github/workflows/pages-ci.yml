@@ -48,7 +48,7 @@ jobs:
       - name: 📄 Setup Pages index.html
         run: |
           mkdir -p _site
-          echo "<html><body><embed src="/typst-improv-tables-planning/main.pdf" type="application/pdf" /></body></html>" >> _site/index.html
+          echo "<html><body style="margin: 0;"><embed src="/typst-improv-tables-planning/main.pdf" type="application/pdf" width="100%" height="100%" /></body></html>" >> _site/index.html
           ls -ltah _site
 
       - name: 🛠️ Compile document
