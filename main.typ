@@ -130,9 +130,14 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
   - *Proposal 3:* A mix of proposals 1 and 2 (perhaps tending more towards 2C), we could specify a `table.header` element above cells (but among them), making it clearer that it could affect their coordinates.
     - Maybe a bit overkill?
 
-== Repeatable footers
+== Repeatable footers and other kinds of repetition
 
-*TBD*
+1. *To be discussed:* There could be a feature similar to repeatable headers, but repeating footer rows across pages.
+  - The same concerns regarding coordinates from headers would remain: use the last $n$ rows as the coordinates? Have independent coordinates from the rest of the table (top left cell of the footer is `(0, 0)`)?
+  - Should the API be identical to repeatable header's? Have `footer-rows: n`? `footer: (some, cells, ...)`? `table.footer(...)`?
+2. *To be discussed:* There could be a way to repeat *table captions* (e.g. Table 1 appears on the first page, Continuation of Table 1 appears on the second, ...)
+  - This, however, would likely be *better suited for figure*, as it's the figure element which provides the table's caption. In general, figures could be adapted to repeat captions across pages for anything they main contain, not only tables.
+  - This could, therefore, end up being out of scope for work on tables, although such work on figures would be incentivized and/or welcome.
 
 == Table direction and orientation
 
