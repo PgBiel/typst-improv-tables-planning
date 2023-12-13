@@ -108,7 +108,7 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
 
 == Grid and table unification
 
-1. `grid` and `table` should be much closer to each other in terms of available settings. Maybe even have the same API!
+1. *To be discussed:* `grid` and `table` should be much closer to each other in terms of available settings. Maybe even have the same API!
   - You'd have, for instance, a `grid.cell` element. However, *that'd be different from* `table.cell`. Show rules applying to one shouldn't apply to the other.
   - Similarly to tablex, the main difference between the two - other than the semantical difference - would be that a `grid` has `stroke: none` (or, rather, no lines at all) by default, while `table` has all lines (horizontal and vertical) by default.
   - *Investigation needed:* We will probably need to have some sort of "Cell-like" trait so that both a `GridCellElem` and a `TableCellElem` can be specified for the `GridLayouter`.
