@@ -145,13 +145,15 @@
     }
   }
   show raw: set text(1.15em)
+  show math.equation: set text(1.15em)
   show: display-requirement-refs
 
   show: codly-init
   codly-func(
     languages: (
       typ: (name: "Typst", icon: none, color: eastern)
-    )
+    ),
+    numbers-format: it => move(dx: 1pt, text(it, luma(110)))
   )
 
   // Title row.
