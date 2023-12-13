@@ -80,6 +80,18 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
     - This could translate to internal cell properties, or even just be wrapped as the body of a `table.cell`.
   - *Proposal 2:* Use properties on `table.cell`, e.g. `table.cell(diagbox: (left: [a], right: [b], flipped: true))`.
 
+6. *To be discussed:* Cell customization could be made powerful enough to allow for spreadsheet-like powers, where one cell's content, fill and other properties depend on other cells' properties (especially content). For instance, the rightmost cells of each row could be the sum of the numbers displayed in the other cells in the row (you'd, in that case, parse its content with `int(cell.body.text)` or similar).
+  - Tablex partially allows for this capability, in a restricted manner, using `map-cols` and `map-rows`: you can modify rows and columns of the table grid in bulk, thus allowing one cell's content and properties to depend on properties from other cells in the same row and in the same column as itself. The first example in tablex's README showcases this, where a cell's text is even colored differently depending on its own body (which is a number calculated as the sum of other cells in the row).
+  - While a thin wrapper over table (which modifies `..args` before they are passed to `table()`) can simulate this behavior, it is worth noting that a wrapper over table doesn't have access to the table's final grid, as cells can be specified in any order (when we consider that we will allow specifying arbitrary coordinates for cells). The table wrapper would have to position cells in the grid by itself, so it would end up not being very "thin", hence why native support could be helpful here.
+  - *Proposal 1 (Tablex's approach):* Add a way to modify rows and columns in bulk, like tablex's `map-cols` and `map-rows`.
+    - This isn't powerful enough to allow a cell depend on _any other cell_, but is good enough for a good amount of usecases and less complex to implement.
+    - One would need to decide the order in which those modifications are applied to avoid ambiguities (columns or rows first? Show rule last?).
+  - *Proposal 2:* Allow a variant of `map-cells` which provides the entire grid for each cell which needs it to determine its content and properties.
+    - This would be extremely powerful, but we would have to consider whether the potential extra complexity - both in table parameters and in the internal code - is worth it.
+    - *Investigation needed:* Perhaps the grid passed should only be a copy of the initial grid in order to avoid unpredictable interdependence of cells. This could also make the operation faster by potentially allowing us to rely on COW mechanics (if the cell doesn't modify the grid at all, then it isn't copied, which can be expensive if it is too large).
+  - *Proposal 3:* Move such behavior to a separate element, e.g. `spreadsheet`, with otherwise similar API to `table`.
+    - Could be overkill.
+
 == Merging cells
 
 *TBD*
