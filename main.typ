@@ -63,6 +63,7 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
     - However, the interface *wouldn't be very consistent* with the rest of Typst.
 
 4. *To be discussed:* It should be possible to place cells arbitrarily in the table by setting their `x, y` positions manually.
+  #note[Throughout the document, we will assume that cell coordinates are *zero-indexed*, that is, the cell with `x: 0, y: 3` is in the *first* column (left-to-right) and *fourth* row (top-to-bottom). Note also that *ordinal numbers* (first, second, ...) *are one-indexed* to follow what the English language mandates, but sometimes we will mix both coordinates and ordinal numbers, so be aware of that (the ordinal numbers are always the coordinates plus one).]
   - For instance, `table.cell(x: 5, y: 2)` would place it at the 6th column, 3rd row.
     - Cells which would normally be automatically placed at such a position would just skip it.
   - If we follow tablex's system for this, we would have those properties default to `auto`, meaning they would be, by default, automatically positioned based on where they were specified in the table's parameters.
