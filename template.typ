@@ -4,7 +4,7 @@
 
 #let obs = thmplain("obs", [*Obs.*]).with(numbering: none)
 
-#let note = thmbox("note", "Nota", inset: 10pt, /*inset: (x: 1.2em, top: 1em),*/ fill: yellow.darken(6%))
+#let note = thmbox("note", "Note", inset: 10pt, /*inset: (x: 1.2em, top: 1em),*/ fill: yellow.darken(6%))
 
 #let n-color-box(..parts, columns: auto, height: auto, text-color: white, bg: green) = {
   if columns == auto {
