@@ -10,4 +10,33 @@ diagbox:
     author: PgBiel
     archive: GitHub
     url: https://github.com/PgBiel/typst-diagbox
-
+tablex-frac-auto-issue1:
+    type: Thread
+    title: "Tablex Issue #56: Colspan over 1fr prompting auto columns to needlessly expand"
+    author: PgBiel
+    archive: GitHub
+    url: https://github.com/PgBiel/typst-tablex/issues/56
+tablex-frac-auto-issue2:
+    type: Thread
+    title: "Tablex Issue #78: Column sizes with mixed fractional and auto sizes don't fit the page"
+    author: "@manveru"
+    archive: GitHub
+    url: https://github.com/PgBiel/typst-tablex/issues/78
+tablex-commit-draw-lines-per-cells:
+    type: Misc
+    title: "Tablex Commit 875ebaf: switch to drawing lines per whole cells"
+    author: PgBiel
+    archive: GitHub
+    url: https://github.com/PgBiel/typst-tablex/commit/875ebaf220a62d1cebe8db4d97636a69f8f53108
+tablex-issue-lines-not-drawn:
+    type: Thread
+    title: "Tablex Issue #27: H/vlines ending in the middle of col/rowspan not drawn"
+    author: PgBiel
+    archive: GitHub
+    url: https://github.com/PgBiel/typst-tablex/issues/27
+tablex-issue-dashed-lines-broken:
+    type: Thread
+    title: "Tablex Issue #81: dashed and dotted hlines have uneven spacing"
+    author: "@Enivex"
+    archive: GitHub
+    url: https://github.com/PgBiel/typst-tablex/issues/81

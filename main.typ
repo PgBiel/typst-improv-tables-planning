@@ -104,7 +104,39 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
 
 == Merging cells
 
-*TBD*
+1. *OK:* It should be possible to merge cells horizontally (colspan) and vertically (rowspan).
+
+2. *OK:* This should be a property of `table.cell` elements, should we create them.
+
+3. *OK:* This should likely be implemented as in tablex: when merging cells, one cell is kept as its "parent" in the grid, and other cells participating in the merge are kept as "child" cells which only point back to the parent. Thus, when analyzing which positions are available in the grid (in order to position a cell with automatic positioning), you'd just skip child cells as well as normal cells.
+
+4. *To be discussed:* Should we provide tablex-like helper functions, such as `table.colspan(2)[body]` (equivalent to `table.cell(colspan: 2)[body]`) and `table.rowspan(3)[body]` (equivalent to `table.cell(rowspan: 2)[body]`)? Would we also accept `table.colspan(2, table.rowspan(3)[body])`?
+  - *Proposal 1:* Those helper functions could be added and function similar to `text`: they would just apply `set table.cell(colspan: ...)` and `set table.cell(rowspan: ...)` rules. That would also allow nesting them. Their usage is optional.
+  - *Proposal 2:* The helper functions wouldn't be added, and you'd always construct `table.cell(colspan: ..., rowspan: ...)[Hi]`.
+
+5. *To be discussed:* When colspans span auto columns and rowspans span auto rows, how should those columns and rows expand?
+  - *Proposal 1 (Tablex):* Always expand the auto column / row with the largest index (i.e. the rightmost auto column and the bottommost auto row), as needed.
+  - *Proposal 2:* Perhaps consider expanding auto columns / rows evenly.
+
+6. *To be discussed:* When a merged cell spans both one or more `auto` tracks and one or more `1fr` (/fractional in general) tracks, what should happen to the `auto` tracks?
+  - Currently, both in tablex and (seemingly) native tables, `auto` track sizes are calculated _before_ fractional track sizes. This is necessary because fractional track sizes can only occupy the available space remaining in the page width / height after other non-fractional columns are laid out.
+  - However, with merged cells, we'd have cells depending on both fractional and non-fractional tracks. On tablex, this leads to a few visual bugs @tablex-frac-auto-issue1 @tablex-frac-auto-issue2. In particular, for all intents and purposes, a fractional track is considered to have size 0 before its effective length is calculated, so auto tracks expand to fit the entire merged cell when, in reality, the fractional track could have expanded enough to fit the merged cell.
+  - So the question is, how to best sidestep this problem?
+    - *Proposal 1:* If a merged cell spans all fractional tracks in the table, it should *not* cause `auto` tracks to expand. This is enough to tackle @tablex-frac-auto-issue1.
+      - This is based on the idea that, by spanning all fractional columns, a colspan cell will have *access to all available space* within the page/container width. So, even if its `auto` columns expanded, they would never expand, together, more than that fractional column, because *`auto` columns are resized to fit in the available page width* after being calculated.
+      - However, it might be best to *restrict this behavior to colspans* (and not rowspans), at least in row-major tables (the default), as *`auto` rows are not resized to fit the page height* - either they are fully sent to the next page (tablex), or they cross both the current page and the next (native tables), while *fractional rows' sizes only consider the current page.*
+    - *Proposal 2:* Some form of multi-pass algorithm could be employed: calculate `auto` columns, calculate fractional tracks, and check mathematically if fractional tracks would have been enough to fit merged cells; if so, repeat the process (perhaps at most once).
+      - *Investigation needed:* This could use some more formal definition of algorithm and/or the calculations required.
+
+7. *To be discussed:* Which algorithm should be used to *break down table lines* such that they *do not cross merged cells*?
+  - *Proposal 1 (Tablex 0.0.2 @tablex-commit-draw-lines-per-cells):* Break down lines such that each occupies the border of a cell.
+    - This is likely the most sane approach, but the problem is that this forces lines to occupy the _entire_ border of each cell, leading to issues such as @tablex-issue-lines-not-drawn.
+    - Doing this in a greedy way like tablex also leads to issues such as @tablex-issue-dashed-lines-broken, where one line may be broken down into two consecutive lines for no reason, leading to dashed patterns and gradients in lines' strokes being "restarted" in the middle of the line (which is actually two visually joined lines) for no reason, making the patterns look "broken" / "uneven".
+      - A way around this is to set the `phase` for each dashed stroke and `relative: "parent"` for each gradient / pattern stroke.
+      - In parallel, however, some other less greedy algorithm could be used - either via backtracking or something else - which *merges adjacent lines*.
+  - *Proposal 2:* In order to solve line merging, perhaps instead of analyzing every cell and seeing which lines could be their borders, we could do the opposite: take each line and keep advancing it until either a merged cell is reached (in which case a new line is formed, and it continues after that merged cell if possible) or a gutter is hit (and the line is configured to not cross gutters - not currently possible in native tables, but possible in tablex).
+    - This would have some problems. How would we know when we hit a merged cell? Perhaps there could be a cell from 50 rows above us with a rowspan of 51 which could conflict with a horizontal line somewhere. We'd, thus, need to check every single cell before the current position every time, and there'd likely be more cells than lines, thus possibly making this algorithm less efficient.
+    - One way to speed up this algorithm considerably could be to keep a separate list of cells with colspan #sym.eq.not 1 or rowspan #sym.eq.not 1. There would, thus, be no lookup at all when there are no merged cells, and no lines would be broken down.
 
 == Line customization
 
@@ -127,6 +159,8 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
 5. *To be discussed:* Should it be possible to specify not only vertical and horizontal, but also diagonal lines?
   - At the moment, this sounds very far-fetched, especially since handling diagonal lines going through pagebreaks would be a bit hairy, and require some math.
   - The idea can be kept here for the future though. For the moment, we should focus on horizontal and vertical lines.
+
+6. *To be discussed:* How to ensure line customization interacts properly with merged cells?
 
 == Grid and table unification
 
