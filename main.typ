@@ -40,7 +40,7 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
 2. *OK:* It should have similar properties to tablex's implementation. In particular, regarding the most basic properties, `fill`, `align` and `inset` are desirable to override the default table setting. Additionally, a cell would have a `body` or `content` field to access its inner content.
     #note[Theoretically, it'd be possible to change cells' `x`, `y`, `colspan`, `rowspan` fields through `set` rules. That's not necessarily a problem for tables themselves, as the style chain at the grid generation stage of the table code would likely already have the final values of those fields, considering `set` rules and such. However, using such rules should be avoided, as they can produce unexpected consequences.]
 
-3. *Under discussion:* It should be possible to customize cells in bulk, akin to tablex's `map-cells`.
+3. *OK (Proposal 5):* It should be possible to customize cells in bulk, akin to tablex's `map-cells`.
   - In particular, while `fill: (x, y) => pick-color(x, y)` and `align: (x, y) => pick-align(x, y)` work, they can't depend on other properties the cell has; in particular, the cell's body (e.g. you might want to set the fill for all cells with the text "3" to green).
   - *Proposal 1:* We could change their signatures to `fill: cell => value` *(breaking change)*. The idea is that a `table.cell` would also have `x, y` fields to let you "locate" it, and a `body` or `content` field.
   - *Proposal 2:* We could use show rules. However, they are currently limited due to problems in the styling system:
@@ -70,6 +70,7 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
     - *Proposal 4C:* Provide *all cell properties* (copied to a dictionary before the function is called, which then is provided to it) to each property.
       - This would raise questions regarding which property's function would be called first, etc. So you can't reliably have align depend on fill and fill depend on align. But such a case could perhaps just be considered pathological.
       - This would be the most flexible option, but 4B is also more balanced in the sense that there is no margin for such "race conditions".
+    - *Proposal 5 (Laurenz + Pg):* Allowing cell properties to depend on cell body inspection is probably not a good idea (we shouldn't encourage content inspection). So, for now, perhaps per-cell properties should just be simple (`fill: red`, `align: left` etc.), and anything depending on content should be done with show rules.
     - In addition, we could allow cells to have `fill: auto` (or `fill: data => auto`) and similar to just use the global setting.
 
 4. *To be discussed:* It should be possible to place cells arbitrarily in the table by setting their `x, y` positions manually.
