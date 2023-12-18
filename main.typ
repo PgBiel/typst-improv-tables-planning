@@ -236,19 +236,25 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
 
 = Requirements
 
-Formalized and consolidated ideas. *This section is WIP* (don't take its contents seriously for now).
+Formalized and consolidated ideas. *This section is WIP*.
 
 The requirement labels have some prefixes. "F" indicates a functional requirement (related to adding functionality), while "NF" is non-functional (specifying some desired characteristic, or something more general). This allows us to refer to those requirements with precision in discussions.
 
 == Per-cell customization
 
 #require("FPC")[We should create a `table.cell` element, which will contain settings customizing the cell's appearance and other properties.]
-// #require("FPC")[It should be possible to customize and style table cells, through a mechanism similar to tablex's `map-cells`. One possibility is to use show rules.]
+#require("FPC")[It should be possible to fully customize the appearance of table cells through show rules.]
+#require("FPC")[It should be possible to use `table.cell` in place of content in a `table()` call to customize the look and properties of a particular cell. For instance, one could do `table([a], table.cell(fill: red)[b])` to override the fill for that particular cell.]
+#require("FPC")[`table.cell` should have the following *initial* properties (which change with the following proposals): `fill` (any color-like type), `align` (any `alignment`), `inset` (anything similar to table's `inset`).]
 
 == Merging cells
 
 #require("FMC")[It should be possible to *merge cells horizontally*, through a mechanism called `colspan`.]
 #require("FMC")[It should be possible to *merge cells vertically*, through a mechanism called `rowspan`.]
+
+== Grid and table unification
+
+#require("FGTU")[Grid should have all properties of table available.]
 
 = Increments / Waves
 
