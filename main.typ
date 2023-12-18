@@ -255,6 +255,8 @@ The requirement labels have some prefixes. "F" indicates a functional requiremen
 == Grid and table unification
 
 #require("FGTU")[Grid should have all properties of table available.]
+#require("FGTU")[Grid should default to having no lines (i.e. `stroke: none`), while table keeps its default `stroke` (all lines shown).]
+#require("FGTU")[Regarding the `table.cell` proposal, there would be a separate `grid.cell` element, with the same properties as `table.cell` but not affected by its show/set rules.]
 
 = Increments / Waves
 
