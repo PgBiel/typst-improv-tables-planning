@@ -262,21 +262,21 @@ The idea here is to assign features to separate "waves" of table features.
 
 == MVP
 
-- *ETA:* TBD
+- *ETA:* 3-5 weeks
 
-- TODO
-
-- Initial possibilities:
+- *Features:*
+  - Grid and table cell unification
   - `table.cell`
   - Merging cells
-  - Line customization
-  - Repeatable headers?
 
 == First  increment
 
 - *ETA:* TBD
 
-- TODO
+- *Features:*
+  - Line customization
+  - Repeatable headers
+  - Repeatable footers?
 
 == Second increment
 
