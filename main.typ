@@ -38,6 +38,7 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
   ```
 
 2. *OK:* It should have similar properties to tablex's implementation. In particular, regarding the most basic properties, `fill`, `align` and `inset` are desirable to override the default table setting. Additionally, a cell would have a `body` or `content` field to access its inner content.
+    #note[Theoretically, it'd be possible to change cells' `x`, `y`, `colspan`, `rowspan` fields through `set` rules. That's not necessarily a problem for tables themselves, as the style chain at the grid generation stage of the table code would likely already have the final values of those fields, considering `set` rules and such. However, using such rules should be avoided, as they can produce unexpected consequences.]
 
 3. *Under discussion:* It should be possible to customize cells in bulk, akin to tablex's `map-cells`.
   - In particular, while `fill: (x, y) => pick-color(x, y)` and `align: (x, y) => pick-align(x, y)` work, they can't depend on other properties the cell has; in particular, the cell's body (e.g. you might want to set the fill for all cells with the text "3" to green).
@@ -57,10 +58,18 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
     }
     ```
     - *Investigation needed:* Additionally, how would tablex detect changes in those fields and apply them? Can an ```rust impl Layout for TableElem``` interact properly with the style-chain post-show rules?
+      - *Temporary conclusion:* This is probably one of the main problems behind `show x: set x()`, and an alternative proposal to `set` cell properties would likely be ideal.
     - Still, this would probably be the most "Typst"-y way to customize cells, and *would be viable after a style system rework.*
   - *Proposal 3:* Bring tablex's `map-cells: cell => cell` option to tables.
     - Would be the simplest option and the easiest to implement.
     - However, the interface *wouldn't be very consistent* with the rest of Typst.
+  - *Proposal 4 (Pg):* Have `table.cell` properties accept both simple values (e.g. `fill: red`, `align: left` etc.) _and_ functions of the form `data => value` (e.g. `fill: (x, y, body) => (red, yellow, green, blue).at(x + y)` or `align: data => if data.body == [1] { left } else { right }`). This would allow us to circumvent the show rule problem. Show rules would thus be restricted to modifying the body of each cell.
+    - *Which data to provide to the properties' functions?* While we could, in theory, provide a dictionary with all of the cell's fields, _would that be desirable?_
+    - *Proposal 4A:* Provide only `(x, y, body)` to each function (perhaps in a dictionary for more flexibility).
+    - *Proposal 4B:* Provide *all "static" cell properties* (`x`, `y`, `colspan`, `rowspan`, `body` and any others which wouldn't accept a function) in a dictionary to each function.
+    - *Proposal 4C:* Provide *all cell properties* (copied to a dictionary before the function is called, which then is provided to it) to each property.
+      - This would raise questions regarding which property's function would be called first, etc. So you can't reliably have align depend on fill and fill depend on align. But such a case could perhaps just be considered pathological.
+      - This would be the most flexible option, but 4B is also more balanced in the sense that there is no margin for such "race conditions".
 
 4. *To be discussed:* It should be possible to place cells arbitrarily in the table by setting their `x, y` positions manually.
   #note[Throughout the document, we will assume that cell coordinates are *zero-indexed*, that is, the cell with `x: 0, y: 3` is in the *first* column (left-to-right) and *fourth* row (top-to-bottom). Note also that *ordinal numbers* (first, second, ...) *are one-indexed* to follow what the English language mandates, but sometimes we will mix both coordinates and ordinal numbers, so be aware of that (the ordinal numbers are always the coordinates plus one).]
