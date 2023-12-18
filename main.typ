@@ -166,11 +166,13 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
 
 == Grid and table unification
 
-1. *To be discussed:* `grid` and `table` should be much closer to each other in terms of available settings. Maybe even have the same API!
-  - You'd have, for instance, a `grid.cell` element. However, *that'd be different from* `table.cell`. Show rules applying to one shouldn't apply to the other.
-  - Similarly to tablex, the main difference between the two - other than the semantical difference - would be that a `grid` has `stroke: none` (or, rather, no lines at all) by default, while `table` has all lines (horizontal and vertical) by default.
+1. *OK:* `grid` and `table` should be much closer to each other in terms of available settings. Maybe even have the same API!
+  - *Initial idea:* You'd have, for instance, a `grid.cell` element. However, *that'd be different from* `table.cell`. Show rules applying to one shouldn't apply to the other.
+  - *Initial idea:*  Similarly to tablex, the main difference between the two - other than the semantical difference - would be that a `grid` has `stroke: none` (or, rather, no lines at all) by default, while `table` has all lines (horizontal and vertical) by default.
   - *Investigation needed:* We will probably need to have some sort of "Cell-like" trait so that both a `GridCellElem` and a `TableCellElem` can be specified for the `GridLayouter`.
   - *Investigation needed:* How would this affect other elements which depend on `GridLayouter`, such as `list`, `enum` and the like?
+2. *To be discussed:* `grid` and `table` should have the same fields available for customization. The main difference would be that `grid` would default to having no lines at all (`stroke: none`), while table would keep its `stroke` default.
+3. *To be discussed:* `grid.cell` should be made available with the same properties and behavior as `table.cell`, but shouldn't be affected by `table.cell` show rules and be distinct.
 
 == Repeatable headers
 
