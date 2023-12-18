@@ -63,13 +63,14 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
   - *Proposal 3:* Bring tablex's `map-cells: cell => cell` option to tables.
     - Would be the simplest option and the easiest to implement.
     - However, the interface *wouldn't be very consistent* with the rest of Typst.
-  - *Proposal 4 (Pg):* Have `table.cell` properties accept both simple values (e.g. `fill: red`, `align: left` etc.) _and_ functions of the form `data => value` (e.g. `fill: (x, y, body) => (red, yellow, green, blue).at(x + y)` or `align: data => if data.body == [1] { left } else { right }`). This would allow us to circumvent the show rule problem. Show rules would thus be restricted to modifying the body of each cell.
+  - *Proposal 4 (Pg):* Have `table.cell` properties accept both simple values (e.g. `fill: red`, `align: left` etc.) _and_ functions of the form `data => value` (e.g. `fill: (x, y, body) => (red, yellow, green, blue).at(x + y)` or `align: data => if data.body == [1] { left } else { right }`). This would allow us to circumvent the show rule problem by using set rules instead: `set table.cell(fill: data => ...)`. Show rules would thus be restricted to modifying the body of each cell.
     - *Which data to provide to the properties' functions?* While we could, in theory, provide a dictionary with all of the cell's fields, _would that be desirable?_
     - *Proposal 4A:* Provide only `(x, y, body)` to each function (perhaps in a dictionary for more flexibility).
     - *Proposal 4B:* Provide *all "static" cell properties* (`x`, `y`, `colspan`, `rowspan`, `body` and any others which wouldn't accept a function) in a dictionary to each function.
     - *Proposal 4C:* Provide *all cell properties* (copied to a dictionary before the function is called, which then is provided to it) to each property.
       - This would raise questions regarding which property's function would be called first, etc. So you can't reliably have align depend on fill and fill depend on align. But such a case could perhaps just be considered pathological.
       - This would be the most flexible option, but 4B is also more balanced in the sense that there is no margin for such "race conditions".
+    - In addition, we could allow cells to have `fill: auto` (or `fill: data => auto`) and similar to just use the global setting.
 
 4. *To be discussed:* It should be possible to place cells arbitrarily in the table by setting their `x, y` positions manually.
   #note[Throughout the document, we will assume that cell coordinates are *zero-indexed*, that is, the cell with `x: 0, y: 3` is in the *first* column (left-to-right) and *fourth* row (top-to-bottom). Note also that *ordinal numbers* (first, second, ...) *are one-indexed* to follow what the English language mandates, but sometimes we will mix both coordinates and ordinal numbers, so be aware of that (the ordinal numbers are always the coordinates plus one).]
