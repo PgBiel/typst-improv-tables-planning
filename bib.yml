@@ -40,3 +40,9 @@ tablex-issue-dashed-lines-broken:
     author: "@Enivex"
     archive: GitHub
     url: https://github.com/PgBiel/typst-tablex/issues/81
+typst-grid-table-unif-pr:
+    type: Thread
+    title: "Typst PR #3009: Grid and Table API Unification [More Flexible Tables Pt.1]"
+    author: PgBiel
+    archive: GitHub
+    url: https://github.com/typst/typst/pull/3009

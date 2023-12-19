@@ -171,8 +171,8 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
   - *Initial idea:*  Similarly to tablex, the main difference between the two - other than the semantical difference - would be that a `grid` has `stroke: none` (or, rather, no lines at all) by default, while `table` has all lines (horizontal and vertical) by default.
   - *Investigation needed:* We will probably need to have some sort of "Cell-like" trait so that both a `GridCellElem` and a `TableCellElem` can be specified for the `GridLayouter`.
   - *Investigation needed:* How would this affect other elements which depend on `GridLayouter`, such as `list`, `enum` and the like?
-2. *To be discussed:* `grid` and `table` should have the same fields available for customization. The main difference would be that `grid` would default to having no lines at all (`stroke: none`), while table would keep its `stroke` default.
-3. *To be discussed:* `grid.cell` should be made available with the same properties and behavior as `table.cell`, but shouldn't be affected by `table.cell` show rules and be distinct.
+2. *OK:* `grid` and `table` should have the same fields available for customization. The main difference would be that `grid` would default to having no lines or inset at all (`stroke: none` and `inset: 0pt`), while table would keep its `stroke` and `inset: 5pt` defaults.
+3. *OK:* `grid.cell` should be made available with the same properties and behavior as `table.cell`, but shouldn't be affected by `table.cell` show rules and be distinct.
 
 == Repeatable headers
 
@@ -254,8 +254,8 @@ The requirement labels have some prefixes. "F" indicates a functional requiremen
 
 == Grid and table unification
 
-#require("FGTU")[Grid should have all properties of table available.]
-#require("FGTU")[Grid should default to having no lines (i.e. `stroke: none`), while table keeps its default `stroke` (all lines shown).]
+#require("FGTU")[Grid should have all properties of table available. *PR: @typst-grid-table-unif-pr*]
+#require("FGTU")[Grid should default to having no lines or inset (i.e. `stroke: none` and `inset: 0pt`), while table keeps its default `stroke` (all lines shown) and `inset` (`5pt`). *PR: @typst-grid-table-unif-pr*]
 #require("FGTU")[Regarding the `table.cell` proposal, there would be a separate `grid.cell` element, with the same properties as `table.cell` but not affected by its show/set rules.]
 
 = Increments / Waves
