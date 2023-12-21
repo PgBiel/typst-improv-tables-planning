@@ -84,7 +84,7 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
     - *Proposal 2 (Tablex's approach):* The missing coordinate should be determined without change from the `table.cell(x: auto, y: auto)` case. That is, if the cell `table.cell(y: 3)` is specified right after `table.cell(x: 1, y: 1)`, then the former cell's missing `x` coordinate will be calculated to be `x: 2` (the previous plus one). With a missing `y` coordinate, the cell would stay in the same row as the previous cell unless the row is entirely filled, in which case the cell would go to the next row.
       - It works, but might be a bit surprising. Would be nice to have more opinions here.
 
-5. *Under discussion:* Which `table.cell` properties should be applied _before_ its show rule, and which should be applied _after_?
+5. *OK (Proposal 1):* Which `table.cell` properties should be applied _before_ its show rule, and which should be applied _after_?
   - That is, *what is truly overridable* through show rules? Only the cell's body? Its alignment and inset? All of it?
   - *Proposal 1:* Alignment and inset are applied _before_ show rules (thus *overridable*), but fill is applied _after_ show rules (*not overridable*, other than by covering it).
     - This is consistent with how tables are currently implemented (alignment and inset are applied to cells' bodies before they are laid out, while fill is applied after all cells were already laid out).
@@ -185,7 +185,9 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
   - *Initial idea:* You'd have, for instance, a `grid.cell` element. However, *that'd be different from* `table.cell`. Show rules applying to one shouldn't apply to the other.
   - *Initial idea:*  Similarly to tablex, the main difference between the two - other than the semantical difference - would be that a `grid` has `stroke: none` (or, rather, no lines at all) by default, while `table` has all lines (horizontal and vertical) by default.
   - *Investigation needed:* We will probably need to have some sort of "Cell-like" trait so that both a `GridCellElem` and a `TableCellElem` can be specified for the `GridLayouter`.
+    - *Conclusion:* We will use a `Cell` trait, with `Layout` as a supertrait.
   - *Investigation needed:* How would this affect other elements which depend on `GridLayouter`, such as `list`, `enum` and the like?
+    - *Conclusion:* They will use `Content` as the cell type (GridLayouter is generic over `T: Cell`).
 2. *OK:* `grid` and `table` should have the same fields available for customization. The main difference would be that `grid` would default to having no lines or inset at all (`stroke: none` and `inset: 0pt`), while table would keep its `stroke` and `inset: 5pt` defaults.
 3. *OK:* `grid.cell` should be made available with the same properties and behavior as `table.cell`, but shouldn't be affected by `table.cell` show rules and be distinct.
 
@@ -253,14 +255,15 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
 
 Formalized and consolidated ideas. *This section is WIP*.
 
-The requirement labels have some prefixes. "F" indicates a functional requirement (related to adding functionality), while "NF" is non-functional (specifying some desired characteristic, or something more general). This allows us to refer to those requirements with precision in discussions.
+The requirement labels have some prefixes. "F" indicates a functional requirement (related to adding functionality), while "NF" is non-functional (specifying some desired characteristic, or something more general). This allows us to refer to those requirements with precision in discussions. Additionally, *PR:* indicates the pull request which implements the associated requirement.
 
 == Per-cell customization
 
-#require("FPC")[We should create a `table.cell` element, which will contain settings customizing the cell's appearance and other properties.]
-#require("FPC")[It should be possible to fully customize the appearance of table cells through show rules.]
-#require("FPC")[It should be possible to use `table.cell` in place of content in a `table()` call to customize the look and properties of a particular cell. For instance, one could do `table([a], table.cell(fill: red)[b])` to override the fill for that particular cell.]
-#require("FPC")[`table.cell` should have the following *initial* properties (which change with the following proposals): `fill` (any color-like type), `align` (any `alignment`), `inset` (anything similar to table's `inset`).]
+#require("FPC")[We should create `grid.cell` and `table.cell` elements, which will contain settings customizing the cell's appearance and other properties. The former only works for `grid` cells, while the latter, only for `table` cells. *PR: @typst-initial-cell-custom-pr*]
+#require("FPC")[It should be possible to fully customize the appearance of table cells through show rules. *PR: @typst-initial-cell-custom-pr*]
+#require("FPC")[It should be possible to use `table.cell` in place of content in a `table()` call (and similarly for `grid`) to customize the look and properties of a particular cell. For instance, one could do `table([a], table.cell(fill: red)[b])` to override the fill for that particular cell. *PR: @typst-initial-cell-custom-pr*]
+#require("FPC")[`table.cell` should have the following *initial* properties (which change with the following proposals): `fill` (any color-like type), `align` (any `alignment`), `inset` (anything similar to table's `inset`). *PR: @typst-initial-cell-custom-pr*]
+#require("FPC")[When applying show rules on `grid.cell` and `table.cell`, their final properties must already be known. That is, `#show grid.cell: it => (it.fill, it.align, it.inset)` will contain the cell's final properties, regardless of whether they were customized or not. *PR: @typst-initial-cell-custom-pr*]
 
 == Merging cells
 
@@ -271,7 +274,7 @@ The requirement labels have some prefixes. "F" indicates a functional requiremen
 
 #require("FGTU")[Grid should have all properties of table available. *PR: @typst-grid-table-unif-pr*]
 #require("FGTU")[Grid should default to having no lines or inset (i.e. `stroke: none` and `inset: 0pt`), while table keeps its default `stroke` (all lines shown) and `inset` (`5pt`). *PR: @typst-grid-table-unif-pr*]
-#require("FGTU")[Regarding the `table.cell` proposal, there would be a separate `grid.cell` element, with the same properties as `table.cell` but not affected by its show/set rules.]
+#require("FGTU")[Regarding the `table.cell` proposal, there would be a separate `grid.cell` element, with the same properties as `table.cell` but not affected by its show/set rules. *PR: @typst-initial-cell-custom-pr*]
 
 = Increments / Waves
 

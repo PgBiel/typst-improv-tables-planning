@@ -46,3 +46,9 @@ typst-grid-table-unif-pr:
     author: PgBiel
     archive: GitHub
     url: https://github.com/typst/typst/pull/3009
+typst-initial-cell-custom-pr:
+    type: Thread
+    title: "Typst PR #3037: Initial table per-cell customization [More Flexible Tables Pt.2a]"
+    author: PgBiel
+    archive: GitHub
+    url: https://github.com/typst/typst/pull/3037
