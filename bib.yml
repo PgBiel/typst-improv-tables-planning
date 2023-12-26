@@ -10,6 +10,18 @@ diagbox:
     author: PgBiel
     archive: GitHub
     url: https://github.com/PgBiel/typst-diagbox
+tabularray:
+    type: Repository
+    title: tabularray (LaTeX)
+    author: Jianrui Lyu
+    archive: CTAN
+    url: https://ctan.org/pkg/tabularray
+tabularray-manual:
+    type: Reference
+    title: tabularray - Documentation
+    author: Jianrui Lyu
+    archive: CTAN
+    url: https://mirrors.ctan.org/macros/latex/contrib/tabularray/tabularray.pdf
 tablex-frac-auto-issue1:
     type: Thread
     title: "Tablex Issue #56: Colspan over 1fr prompting auto columns to needlessly expand"

@@ -144,6 +144,8 @@ Below, I will list all ideas that have been brought up so far, in a pretty unord
       - However, it might be best to *restrict this behavior to colspans* (and not rowspans), at least in row-major tables (the default), as *`auto` rows are not resized to fit the page height* - either they are fully sent to the next page (tablex), or they cross both the current page and the next (native tables), while *fractional rows' sizes only consider the current page.*
     - *Proposal 2:* Some form of multi-pass algorithm could be employed: calculate `auto` columns, calculate fractional tracks, and check mathematically if fractional tracks would have been enough to fit merged cells; if so, repeat the process (perhaps at most once).
       - *Investigation needed:* This could use some more formal definition of algorithm and/or the calculations required.
+    - *Proposal 3 (Tabularray @tabularray-manual[p. 27]):* Allow choosing whether or not a particular merged cell (or all such cells) can cause an `auto` column to expand (in our case, the last `auto` column), or if column sizes should ignore that (or all) merged cell (and thus only be calculated using non-merged cells / other merged cells).
+      - This would then allow the table user to choose what looks best for their needs, and thus sidestep this problem in a way that potentially pleases more users.
 
 7. *To be discussed:* Which algorithm should be used to *break down table lines* such that they *do not cross merged cells*?
   - *Proposal 1 (Tablex 0.0.2 @tablex-commit-draw-lines-per-cells):* Break down lines such that each occupies the border of a cell.
