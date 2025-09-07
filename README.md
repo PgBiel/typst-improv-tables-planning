@@ -1,6 +1,12 @@
 # typst-improv-tables-planning
 Source code for the Typst Improved Tables Planning document
 
+## NOTE
+
+This work was part of the "More Flexible Tables" initiative in Typst (see https://github.com/typst/typst/issues/3001) and has been concluded. Some features were left for later, such as subheaders and subfooters (https://github.com/typst/typst/issues/5375) and might still be worked on independently.
+
+No further changes are planned to this document, which remains public for archiving purposes.
+
 ## Rendered
 
 View the rendered document here: https://pgbiel.github.io/typst-improv-tables-planning/main.pdf
