@@ -50,10 +50,10 @@ jobs:
           path: "fonts/Fira"
 
       - name: 📥 Setup Typst
-        uses: yusancky/setup-typst@v2
+        uses: typst-community/setup-typst@v4
         id: setup-typst
         with:
-          version: "v0.10.0"
+          typst-version: "v0.10.0"
 
       - name: 📄 Setup Pages index.html
         run: |
