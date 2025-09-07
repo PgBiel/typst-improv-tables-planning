@@ -37,7 +37,7 @@ jobs:
 
       - name: 📄 Setup Pages
         id: pages
-        uses: actions/configure-pages@v3
+        uses: actions/configure-pages@v5
 
       - name: 📂 Create fonts directory
         run: "mkdir -p fonts/Fira"
@@ -79,7 +79,7 @@ jobs:
 
       - name: 📤 Upload artifact
         # Automatically uploads an artifact from the './_site' directory by default
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v4
 
   # Deployment job
   deploy:
@@ -91,4 +91,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
